@@ -115,32 +115,6 @@ void MakeSanDiskKey( char *Serial, char *Key )
   }
   while( counter >= 0 );
 }
-static char ascii(char s) {
-  if(s < 0x20) return '.';
-  if(s > 0x7E) return '.';
-  return s;
-}
-void hexdump(void *d, int len)
-{
-  u8 *data;
-  int i, off;
-  data = (u8*)d;
-  for (off=0; off<len; off += 16)
-  {
-    printf("%08x  ",off);
-    for(i=0; i<16; i++)
-      if((i+off)>=len)
-		  printf("   ");
-      else
-		  printf("%02x ",data[off+i]);
-
-    printf(" ");
-    for(i=0; i<16; i++)
-      if((i+off)>=len) printf(" ");
-      else printf("%c",ascii(data[off+i]));
-    printf("\r\n");
-  }
-}
 int main( int argc, char *argv[] )
 {
   printf("makekey v0.1 by crediar\n");
@@ -178,9 +152,7 @@ int main( int argc, char *argv[] )
 
   u32 Type = 0;
   u32 Swap = 0;
-
-  //SwapStrings(inq);
-
+  
   // Check for SanDisk CF "SDCF"
   if( *(u32*)(inq+0x3E) == 0x43465344 )
   {
@@ -216,7 +188,7 @@ int main( int argc, char *argv[] )
   }  
   else
   {
-    printf("Unknown inqury\n");
+    printf("Unknown inquiry\n");
     return -4;
   }
 
